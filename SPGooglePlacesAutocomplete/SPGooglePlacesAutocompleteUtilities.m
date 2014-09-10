@@ -24,6 +24,10 @@ SPGooglePlacesAutocompletePlaceType SPPlaceTypeFromDictionary(NSDictionary *plac
         
         return SPPlaceTypeGeocode;
         
+    }else if([[placeDictionary objectForKey:@"types"] containsObject:@"(cities)"]){
+        
+        return SPPlaceTypeCity;
+        
     }else if ([[placeDictionary objectForKey:@"types"] containsObject:@"(regions)"]){
         
         return SPPlaceTypeRegion;
@@ -47,6 +51,9 @@ NSString *SPPlaceTypeStringForPlaceType(SPGooglePlacesAutocompletePlaceType type
             
         case SPPlaceTypeRegion:
             return @"(regions)";
+            
+        case SPPlaceTypeCity:
+            return @"(cities)";
             
         case SPPlaceTypeInvalid:
             return @"";
