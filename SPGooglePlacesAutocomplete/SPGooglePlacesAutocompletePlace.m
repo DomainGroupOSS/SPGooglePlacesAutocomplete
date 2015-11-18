@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *reference;
 @property (nonatomic, strong) NSString *identifier;
+@property (nonatomic, strong) NSArray *matchedSubstrings;
 @property (nonatomic) SPGooglePlacesAutocompletePlaceType type;
 @end
 
@@ -24,6 +25,18 @@
     place.name = placeDictionary[@"description"];
     place.reference = placeDictionary[@"reference"];
     place.identifier = placeDictionary[@"id"];
+    
+    NSArray *matchedSubstrings = placeDictionary[@"matched_substrings"];
+    NSMutableArray *matchedSubstringsArray = [NSMutableArray new];
+    for (NSDictionary *dic in matchedSubstrings) {
+        NSNumber *length = (NSNumber *)dic[@"length"];
+        NSNumber *offset = (NSNumber *)dic[@"offset"];
+        if (length && offset) {
+            NSRange range = NSMakeRange(offset.integerValue, length.integerValue);
+            [matchedSubstringsArray addObject:[NSValue valueWithRange:range]];
+        }
+    }
+    place.matchedSubstrings = [matchedSubstringsArray copy];
     place.type = SPPlaceTypeFromDictionary(placeDictionary);
     place.key = apiKey;
     return place;
