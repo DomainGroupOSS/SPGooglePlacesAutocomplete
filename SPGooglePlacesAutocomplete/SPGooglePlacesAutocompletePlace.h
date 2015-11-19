@@ -37,6 +37,12 @@
 @property (nonatomic, strong, readonly) NSString *identifier;
 
 /*!
+ Contains an array of NSRange (NSRange range = [matchedSubstrings[4] rangeValue];) indicating the matched substrings.
+ Usually there is only one, but maybe there are more or nothing. Usuaful for painting that part in bold or another color.
+ */
+@property (nonatomic, strong, readonly) NSArray *matchedSubstrings;
+
+/*!
  Your application's API key. This key identifies your application for purposes of quota management. Visit the APIs Console to select an API Project and obtain your key. Maps API for Business customers must use the API project created for them as part of their Places for Business purchase. Defaults to kGoogleAPIKey.
  */
 @property (nonatomic, strong) NSString *key;
