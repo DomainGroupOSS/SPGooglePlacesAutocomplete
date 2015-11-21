@@ -70,6 +70,12 @@
 @property (nonatomic, strong) NSString *language;
 
 /*!
+ Note that the spelling of Referer is “correct”.
+ http://stackoverflow.com/questions/3087626/was-the-misspelling-of-the-http-field-name-referer-intentional)
+ */
+@property (nonatomic, strong) NSString *referer;
+
+/*!
  The types of Place results to return. If no type is specified, all types will be returned.
  */
 @property (nonatomic) SPGooglePlacesAutocompletePlaceType types;

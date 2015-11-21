@@ -84,7 +84,10 @@
     [self cancelOutstandingRequests];
     self.resultBlock = block;
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[self googleURLString]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[self googleURLString]]];
+    if (self.referer.length) {
+        [request setValue:self.referer forHTTPHeaderField:@"Referer"];
+    }
     googleConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     responseData = [[NSMutableData alloc] init];
 }
