@@ -7,6 +7,7 @@
 //
 
 #import "SPGooglePlacesPlaceDetailQuery.h"
+#import "SPGooglePlacesPlaceDetail.h"
 
 @interface SPGooglePlacesPlaceDetailQuery()
 @property (nonatomic, copy) SPGooglePlacesPlaceDetailResultBlock resultBlock;
@@ -78,7 +79,7 @@
 
 - (void)succeedWithPlace:(NSDictionary *)placeDictionary {
     if (self.resultBlock != nil) {
-        self.resultBlock(placeDictionary, nil);
+        self.resultBlock([SPGooglePlacesPlaceDetail placeDetailsFromDictionary:placeDictionary apiKey:self.key], nil);
     }
     [self cleanup];
 }

@@ -8,6 +8,7 @@
 
 #import "SPGooglePlacesAutocompletePlace.h"
 #import "SPGooglePlacesPlaceDetailQuery.h"
+#import "SPGooglePlacesPlaceDetail.h"
 
 @interface SPGooglePlacesAutocompletePlace()
 @property (nonatomic, strong) NSString *name;
@@ -57,11 +58,11 @@
 - (void)resolveEstablishmentPlaceToPlacemark:(SPGooglePlacesPlacemarkResultBlock)block {
     SPGooglePlacesPlaceDetailQuery *query = [[SPGooglePlacesPlaceDetailQuery alloc] initWithApiKey:self.key];
     query.reference = self.reference;
-    [query fetchPlaceDetail:^(NSDictionary *placeDictionary, NSError *error) {
+    [query fetchPlaceDetail:^(SPGooglePlacesPlaceDetail *placeDetails, NSError *error) {
         if (error) {
             block(nil, nil, error);
         } else {
-            NSString *addressString = placeDictionary[@"formatted_address"];
+            NSString *addressString = placeDetails.formattedAddress;
             [[self geocoder] geocodeAddressString:addressString completionHandler:^(NSArray *placemarks, NSError *error) {
                 if (error) {
                     block(nil, nil, error);

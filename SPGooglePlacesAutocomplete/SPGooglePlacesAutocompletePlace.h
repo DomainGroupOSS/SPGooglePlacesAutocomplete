@@ -7,9 +7,41 @@
 //
 
 #import <CoreLocation/CoreLocation.h>
-
 #import "SPGooglePlacesAutocompleteUtilities.h"
 
+/*
+{
+    description = "London, KY, United States";
+    id = 692adb38e4db9759599d6f73f300a3bba7db714a;
+    "matched_substrings" =     (
+                                {
+                                    length = 6;
+                                    offset = 0;
+                                }
+                                );
+    "place_id" = "ChIJA8c2lxTNXIgRmMwHc-RRGWI";
+    reference = "CkQxAAAA4kLuNAdqnWt8yGE-QnH6ZCHI3_GlceGfBZ8drewYDT0mIbrAFAHMlEoc8biAMIuu4sdLuZD6Ty1RbXDzFE1vaxIQ4b9s9iShhIPaXk0w5m2NuhoUdfTisa5Ct22N4Es8F3VcVBNnADI";
+    terms =     (
+                 {
+                     offset = 0;
+                     value = London;
+                 },
+                 {
+                     offset = 8;
+                     value = KY;
+                 },
+                 {
+                     offset = 12;
+                     value = "United States";
+                 }
+                 );
+    types =     (
+                 locality,
+                 political,
+                 geocode
+                 );
+}
+*/
 @interface SPGooglePlacesAutocompletePlace : NSObject {
     CLGeocoder *geocoder;
 }
