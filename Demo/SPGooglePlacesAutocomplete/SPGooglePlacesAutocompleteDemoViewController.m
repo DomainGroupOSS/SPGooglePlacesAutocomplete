@@ -20,7 +20,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         searchQuery = [[SPGooglePlacesAutocompleteQuery alloc] initWithApiKey:@"AIzaSyAFsaDn7vyI8pS53zBgYRxu0HfRwYqH-9E"];
-        searchQuery.types = SPPlaceTypeSuburb;
+        searchQuery.types = SPPlaceTypeGeocode;
         shouldBeginEditing = YES;
     }
     return self;
@@ -66,9 +66,21 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+
+    SPGooglePlacesAutocompletePlace *place = [self placeAtIndexPath:indexPath];
+
+    UIFont *font = [UIFont fontWithName:@"GillSans" size:16.0];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:place.name attributes:@{NSFontAttributeName: font}];
     
-    cell.textLabel.font = [UIFont fontWithName:@"GillSans" size:16.0];
-    cell.textLabel.text = [self placeAtIndexPath:indexPath].name;
+    [attributedString beginEditing];
+    for (NSValue *value in place.matchedSubstrings) {
+        NSRange range = value.rangeValue;
+        [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:range];
+    }
+    [attributedString endEditing];
+    
+    cell.textLabel.attributedText = attributedString;
+    
     return cell;
 }
 

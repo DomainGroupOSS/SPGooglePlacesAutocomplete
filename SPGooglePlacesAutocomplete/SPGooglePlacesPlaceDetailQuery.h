@@ -52,4 +52,10 @@
  */
 @property (nonatomic, strong) NSString *language;
 
+/*!
+ Note that the spelling of Referer is “correct”.
+ http://stackoverflow.com/questions/3087626/was-the-misspelling-of-the-http-field-name-referer-intentional)
+ */
+@property (nonatomic, strong) NSString *referer;
+
 @end

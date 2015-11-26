@@ -7,7 +7,7 @@
 //
 
 #import <CoreLocation/CoreLocation.h>
-
+#import <UIKit/UIKit.h>
 #import "SPGooglePlacesAutocompleteUtilities.h"
 
 @interface SPGooglePlacesAutocompleteQuery : NSObject {
@@ -68,6 +68,12 @@
  The language in which to return results. See the supported list of domain languages. Note that we often update supported languages so this list may not be exhaustive. If language is not supplied, the Place service will attempt to use the native language of the domain from which the request is sent.
  */
 @property (nonatomic, strong) NSString *language;
+
+/*!
+ Note that the spelling of Referer is “correct”.
+ http://stackoverflow.com/questions/3087626/was-the-misspelling-of-the-http-field-name-referer-intentional)
+ */
+@property (nonatomic, strong) NSString *referer;
 
 /*!
  The types of Place results to return. If no type is specified, all types will be returned.

@@ -7,6 +7,7 @@
 //
 
 #import "SPGooglePlacesPlaceDetailQuery.h"
+#import "SPGooglePlacesPlaceDetail.h"
 
 @interface SPGooglePlacesPlaceDetailQuery()
 @property (nonatomic, copy) SPGooglePlacesPlaceDetailResultBlock resultBlock;
@@ -58,7 +59,10 @@
     [self cancelOutstandingRequests];
     self.resultBlock = block;
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[self googleURLString]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[self googleURLString]]];
+    if (self.referer.length) {
+        [request setValue:self.referer forHTTPHeaderField:@"Referer"];
+    }
     googleConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     responseData = [[NSMutableData alloc] init];
 }
@@ -75,7 +79,7 @@
 
 - (void)succeedWithPlace:(NSDictionary *)placeDictionary {
     if (self.resultBlock != nil) {
-        self.resultBlock(placeDictionary, nil);
+        self.resultBlock([SPGooglePlacesPlaceDetail placeDetailsFromDictionary:placeDictionary apiKey:self.key], nil);
     }
     [self cleanup];
 }

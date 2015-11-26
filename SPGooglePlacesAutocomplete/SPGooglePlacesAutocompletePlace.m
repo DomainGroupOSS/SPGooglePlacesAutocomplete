@@ -8,11 +8,13 @@
 
 #import "SPGooglePlacesAutocompletePlace.h"
 #import "SPGooglePlacesPlaceDetailQuery.h"
+#import "SPGooglePlacesPlaceDetail.h"
 
 @interface SPGooglePlacesAutocompletePlace()
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *reference;
 @property (nonatomic, strong) NSString *identifier;
+@property (nonatomic, strong) NSArray *matchedSubstrings;
 @property (nonatomic) SPGooglePlacesAutocompletePlaceType type;
 @end
 
@@ -24,6 +26,18 @@
     place.name = placeDictionary[@"description"];
     place.reference = placeDictionary[@"reference"];
     place.identifier = placeDictionary[@"id"];
+    
+    NSArray *matchedSubstrings = placeDictionary[@"matched_substrings"];
+    NSMutableArray *matchedSubstringsArray = [NSMutableArray new];
+    for (NSDictionary *dic in matchedSubstrings) {
+        NSNumber *length = (NSNumber *)dic[@"length"];
+        NSNumber *offset = (NSNumber *)dic[@"offset"];
+        if (length && offset) {
+            NSRange range = NSMakeRange(offset.integerValue, length.integerValue);
+            [matchedSubstringsArray addObject:[NSValue valueWithRange:range]];
+        }
+    }
+    place.matchedSubstrings = [matchedSubstringsArray copy];
     place.type = SPPlaceTypeFromDictionary(placeDictionary);
     place.key = apiKey;
     return place;
@@ -44,11 +58,11 @@
 - (void)resolveEstablishmentPlaceToPlacemark:(SPGooglePlacesPlacemarkResultBlock)block {
     SPGooglePlacesPlaceDetailQuery *query = [[SPGooglePlacesPlaceDetailQuery alloc] initWithApiKey:self.key];
     query.reference = self.reference;
-    [query fetchPlaceDetail:^(NSDictionary *placeDictionary, NSError *error) {
+    [query fetchPlaceDetail:^(SPGooglePlacesPlaceDetail *placeDetails, NSError *error) {
         if (error) {
             block(nil, nil, error);
         } else {
-            NSString *addressString = placeDictionary[@"formatted_address"];
+            NSString *addressString = placeDetails.formattedAddress;
             [[self geocoder] geocodeAddressString:addressString completionHandler:^(NSArray *placemarks, NSError *error) {
                 if (error) {
                     block(nil, nil, error);
